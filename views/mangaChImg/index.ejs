@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../templates/head') %>
+<body>
+    <div>
+        <div class=" text-center"><%= mangaCh.mangaChName %></div>
+        <div class="p-1">
+            <p>id: <%= mangaCh.mangaChId %></p>
+            <a href="/<%= mangaId %>"><%= mangaId %></a>
+            <% mangaCh.mangaChImg.forEach(mangaChimg => { %>
+                <div
+              class='relative h-[600px] w-full max-w-md md:h-screen mx-auto ${mangaChimg.mangaChImgId}'
+            >
+              <img
+                src='/api/mangaChImg/<%= mangaChimg.id %>'
+                alt='<%= mangaChimg.id %>'
+                fill
+                class="h-full w-auto"
+              />
+            </div>
+            <% }) %>
+        </div>
+        <div class="text-center">
+            <a href="/" class="text-3xl">Home</a>
+        </div>
+        <!-- <div class="flex justify-between mt-4"> -->
+        <div class="mt-4 text-center">
+            <% findMangaCh.forEach(findmanga => { %>
+                <% if (findmanga.mangaChId != mangaCh.mangaChId) { %>
+                   <div>
+                    <a href="/<%= mangaId %>/<%= findmanga.mangaChId %>"><%= findmanga.mangaChId %></a>
+                   </div>
+                <% } %>
+            <% }) %>
+        </div>
+    </div>
+    
+</body>
+</html>

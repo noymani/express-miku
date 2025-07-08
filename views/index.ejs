@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('templates/head') %>
+
+<body class="bg-gray-100">
+  <div class="min-h-screen p-4 bg-gray-100">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% mangas.forEach(manga=> { %>
+        <a href="/<%= manga.mangaId %>" class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+
+          <img src="api/image/<%= manga.id %>" alt="<%= manga.id %>" class="w-full h-auto object-cover">
+
+          <div class="p-4">
+            <h2 class="text-xl font-semibold mb-2 text-black">
+              <%= manga.mangaTitle %>
+            </h2>
+            <!-- <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">Read
+              More</button> -->
+          </div>
+        </a>
+        <% }) %>
+
+    </div>
+    <div class="text-center my-6 ">
+      <form method="GET" className="text-center ">
+        <select
+        aria-label="Select page"
+          name="page"
+          
+          className="border rounded px-3 py-2"
+        >
+          <% for( let i = 0; i < totalPages; i++ ) { %>
+              <% if (i+1==pages) { %>
+                <option value="<%= String(i+1) %>" selected>
+                  Page <%= i+1 %>
+                </option>
+              <% }else{ %>
+                <option value="<%= String(i+1) %>">
+                  Page <%= i+1 %>
+                </option>
+                <% } %>
+              
+          <% } %>
+        </select>
+        <button
+          type="submit"
+          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Go
+        </button>
+      </form>
+      
+    </div>
+    <div class="text-center">
+      <div className="flex justify-between mt-10">
+        <% if (pages>1) { %>
+          <a href="/?page=<%= Number(pages)-1 %>" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            ⬅ Previous</a>
+        <% } %>
+        <% if (pages<totalPages) { %>
+          <a href="/?page=<%=  Number(pages)+1 %>" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Next ➡
+          </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>

@@ -1,0 +1,87 @@
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String @id @default(cuid())
+  email          String @unique
+  hashedPassword String
+  posts          Post[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  published Boolean? @default(false)
+  authorId  String
+  updateAt  DateTime @updatedAt
+  create_at DateTime @default(now())
+  author    User     @relation(fields: [authorId], references: [id])
+
+  @@index([slug])
+}
+
+model Mangas {
+  id           String          @id @default(cuid())
+  mangaId      String          @unique
+  mangaImg     String
+  mangaImgData Bytes?
+  url          String
+  mangaTitle   String
+  storyName    String
+  category     String
+  subject      String
+  painter      String
+  language     String
+  charecter    String
+  updateAt     DateTime        @updatedAt
+  create_at    DateTime        @default(now())
+  mangaCh      MangaCh[]
+  types        MangasOnTypes[]
+}
+
+model Type {
+  id     Int             @id @default(autoincrement())
+  name   String          @unique
+  Mangas MangasOnTypes[]
+}
+
+model MangasOnTypes {
+  mangasId String
+  typeId   Int
+  Type     Type   @relation(fields: [typeId], references: [id])
+  Mangas   Mangas @relation(fields: [mangasId], references: [id])
+
+  @@id([mangasId, typeId])
+}
+
+model MangaCh {
+  id          String       @id @default(cuid())
+  mangaChId   String
+  mangaId     String
+  mangaChName String
+  mangaChUrl  String
+  updateAt    DateTime     @updatedAt
+  create_at   DateTime     @default(now())
+  mangas      Mangas       @relation(fields: [mangaId], references: [id])
+  mangaChImg  MangaChImg[]
+}
+
+model MangaChImg {
+  id              String   @id @default(cuid())
+  mangaChImgId    String?
+  data            Bytes?
+  url             String
+  status_download Boolean? @default(false)
+  mangaChId       String?
+  MangaCh         MangaCh? @relation(fields: [mangaChId], references: [id])
+}

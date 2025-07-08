@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../templates/head') %>
+<body>
+    <div class="p-1">
+        <a href="/" class="text-3xl">Home</a>
+        <p>id: <%=mangas.id%></p>
+        <p>mangaId: <%=mangas.mangaId%></p>
+        <p>url: <%=mangas.url%></p>
+        <p>mangaTitle: <%=mangas.mangaTitle%></p>
+        <p>storyName: <%=mangas.storyName%></p>
+        <p>category: <%=mangas.category%></p>
+        <p>subject: <%=mangas.subject%></p>
+        <p>painter: <%=mangas.painter%></p>
+        <p>language: <%=mangas.language%></p>
+        <p>charecter: <%=mangas.charecter%></p>
+        <% if (mangas.mangaCh.length>1) { %>
+            <% mangas.mangaCh.forEach(mangaCh => { %>
+                <div>
+                    <a href='/<%= mangas.mangaId %>/<%= mangaCh.mangaChId %>'>
+                      <%= mangaCh.mangaChId %>
+                    </a>
+                  </div>
+            <% }) %>
+        
+        <%} else { %>
+            <% mangas.mangaCh[0]?.mangaChImg.forEach(mangaChimg => { %>
+                <div class="relative h-[550px] w-full max-w-md md:h-screen mx-auto">
+                    <img
+                        src="api/mangaChImg/<%= mangaChimg.id %>"
+                        alt="<%= mangaChimg.id %>"
+                        
+                        className="h-full w-auto  md:object-cover"
+                    />
+                </div>
+                
+            <% }) %>
+            <div class="text-center">
+                <a href="/" class="text-3xl">Home</a>
+        
+            </div>
+        <% } %>
+        
+    </div>
+  
+</body>
+</html>
